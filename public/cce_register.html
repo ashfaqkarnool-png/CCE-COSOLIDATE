@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6 ರಿಂದ 9 ನೇ ತರಗತಿಯ ನಿರಂತರ ಮತ್ತು ವ್ಯಾಪಕ ಮೌಲ್ಯಮಾಪನ ಕ್ರೋಡೀಕೃತ ವಹಿ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin-top: 10mm;
+      margin-bottom: 5mm;
+      margin-left: 5mm;
+      margin-right: 5mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 10px;
+      background: #f3f1e8;
+      font-family: 'Noto Sans Kannada', Arial, sans-serif;
+      color: #000;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .report-shell {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      border: 1px solid #000;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      background: #fff;
+      -webkit-overflow-scrolling: touch;
+    }
+    .vtxt {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      white-space: nowrap;
+      letter-spacing: 0.2px;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      margin: 0 auto !important;
+      color: #000;
+    }
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 1602px;
+      min-width: 1602px;
+    }
+    th, td {
+      border: 1px solid #000 !important;
+      color: #000;
+      text-align: center;
+      vertical-align: middle;
+      box-sizing: border-box;
+    }
+    thead th {
+      text-align: center !important;
+      vertical-align: middle !important;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 1px;
+    }
+    .header-input {
+      border: 1px solid #000 !important;
+      background: #fff;
+      color: #000;
+      font-weight: 700;
+      border-radius: 2px;
+      height: 28px;
+      padding: 0 6px;
+      font-family: inherit;
+    }
+    .header-select {
+      border: 1px solid #000 !important;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
+      border-radius: 2px;
+      height: 28px;
+      padding: 0 6px 0 8px;
+      font-family: inherit;
+    }
+    .co-cell { background: #f3d6e8 !important; padding: 0 !important; vertical-align: middle !important; }
+    .co-cell-2 { background: #fce7f3 !important; padding: 0 !important; vertical-align: middle !important; }
+    .co-select-direct {
+      width: 100%;
+      height: 100%;
+      min-height: 36px;
+      background: transparent !important;
+      border: 0 !important;
+      outline: 0 !important;
+      color: #000;
+      font-weight: 700;
+      font-size: 14.5px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .co-final {
+      font-weight: 700;
+      font-size: 14.5px;
+      text-align: center;
+      color: #000;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      min-height: 36px;
+    }
+    .moulankan-cell {
+      white-space: nowrap !important;
+      font-size: 11.5px !important;
+      font-weight: 700;
+    }
+    .stu-detail-wrap {
+      width: 193px;
+      min-height: 324px;
+      background: #c6e0b4;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      padding: 4px 3px;
+    }
+    .stu-row {
+      border-bottom: 1px dotted #000;
+      padding: 2px 0;
+      display: flex;
+      align-items: center;
+      min-height: 40px;
+      background: #c6e0b4;
+    }
+    .stu-row:last-child { border-bottom: 0; }
+    .stu-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #000;
+      white-space: nowrap;
+      padding: 0 3px 0 4px;
+      flex-shrink: 0;
+    }
+    .stu-input {
+      flex: 1;
+      background: transparent !important;
+      border: 0 !important;
+      outline: 0 !important;
+      padding: 4px 4px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #000;
+      min-width: 0;
+      font-family: inherit;
+    }
+    .stu-input-name {
+      font-size: 16.5px !important;
+      font-weight: 700 !important;
+      padding: 4px 4px !important;
+    }
+    .stu-input-date {
+      flex: 1;
+      background: transparent !important;
+      border: 0 !important;
+      outline: 0 !important;
+      padding: 4px 2px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #000;
+      min-width: 0;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .anka-mark-input {
+      font-size: 15.5px !important;
+      font-weight: 700 !important;
+      background: transparent !important;
+      border: 0 !important;
+      text-align: center;
+      width: 100%;
+      height: 32px;
+      font-family: inherit;
+    }
+    .anka-mark-input:focus, .stu-input:focus, .stu-input-date:focus {
+      background: #fffde7 !important;
+      outline: 2px solid #000 !important;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      border: 0;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-green { background: #16a34a; }
+    .btn-blue { background: #2563eb; }
+    .btn-cyan { background: #0891b2; }
+    .btn-emerald { background: #059669; }
+    .btn-amber { background: #d97706; }
+    .btn-red { background: #dc2626; }
+
+    /* Print Preview Modal & Print Styles */
+    #printModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      flex-direction: column;
+    }
+    .print-page {
+      background: #fff;
+      color: #000;
+      width: 100%;
+      page-break-after: always;
+      break-after: page;
+      box-sizing: border-box;
+    }
+    .print-page:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+    .print-table {
+      width: 100% !important;
+      min-width: 0 !important;
+      table-layout: fixed !important;
+      border-collapse: collapse !important;
+      border: 0.6px solid #000 !important;
+    }
+    .print-table th, .print-table td {
+      border: 0.5px solid #000 !important;
+      background: #fff !important;
+      color: #000 !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      padding: 3.5px 1px 2.5px 1px !important;
+      font-size: 12.5px !important;
+      line-height: 1.25 !important;
+    }
+    .print-table thead th {
+      font-size: 11px !important;
+      padding: 1px 0 !important;
+    }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin-top: 10mm;
+        margin-bottom: 5mm;
+        margin-left: 5mm;
+        margin-right: 5mm;
+      }
+      html, body {
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        font-family: 'Noto Sans Kannada', Arial, sans-serif !important;
+      }
+      .no-print, .report-shell, #printModal {
+        display: none !important;
+      }
+      #printArea {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Application -->
+  <div class="report-shell no-print">
+    <!-- Top Header -->
+    <div style="border-bottom: 1px solid #000;">
+      <div style="background: #fef9c3; text-align: center; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+        <h1 style="margin: 0; font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+          <span>6 ರಿಂದ 9 ನೇ ತರಗತಿಯ ನಿರಂತರ ಮತ್ತು ವ್ಯಾಪಕ ಮೌಲ್ಯಮಾಪನ ಕ್ರೋಡೀಕೃತ ವಹಿ</span>
+          <input id="yearInput" class="header-input" style="width: 110px; text-align: center;" value="2024-25" placeholder="ವರ್ಷ" title="ಶೈಕ್ಷಣಿಕ ವರ್ಷ">
+        </h1>
+      </div>
+      <div style="background: #d9e8d5; border-top: 1px solid #000; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 16px; font-weight: 700; font-size: 15px; flex-wrap: wrap;">
+        <label>
+          ತರಗತಿ :
+          <select id="classSelect" class="header-select">
+            <option value="6">6 ನೇ ತರಗತಿ</option>
+            <option value="7">7 ನೇ ತರಗತಿ</option>
+            <option value="8">8 ನೇ ತರಗತಿ</option>
+            <option value="9">9 ನೇ ತರಗತಿ</option>
+          </select>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px;">
+          <span>ಶಾಲೆಯ ಹೆಸರು :</span>
+          <input id="schoolInput" class="header-input" style="width: 320px;" placeholder="ಶಾಲೆಯ ಪೂರ್ಣ ಹೆಸರು" value="ಸರಕಾರಿ ಪ್ರೌಢಶಾಲೆ">
+        </label>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div style="background: #fff; padding: 10px 24px; border-bottom: 1px solid #000; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+      <button class="btn btn-green" onclick="addStudent()">+ ವಿದ್ಯಾರ್ಥಿ ಸೇರಿಸಿ</button>
+      <button class="btn btn-blue" onclick="exportToExcel()">📊 Excel ರಫ್ತು</button>
+      <button class="btn btn-cyan" onclick="openPrintPreview()">👁️ ಪೂರ್ವವೀಕ್ಷಣೆ (Preview)</button>
+      <button class="btn btn-emerald" onclick="triggerPrint()">🖨️ ಮುದ್ರಣ (Print)</button>
+      <button class="btn btn-amber" onclick="resetMarks()">🔄 ಅಂಕ ರೀಸೆಟ್</button>
+      <button class="btn btn-red" onclick="clearAllData()">🗑️ ಎಲ್ಲವನ್ನೂ ಅಳಿಸಿ</button>
+    </div>
+
+    <!-- Live Register Table -->
+    <div class="table-wrap">
+      <table id="mainTable">
+        <!-- Javascript renders colgroup, thead, and tbody dynamically -->
+      </table>
+    </div>
+  </div>
+
+  <!-- Print Container (Visible only during window.print) -->
+  <div id="printArea" style="display: none;"></div>
+
+  <!-- Print Preview Modal -->
+  <div id="printModal">
+    <div style="background: #1f2937; color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #374151;">
+      <div style="font-weight: 700; font-size: 15px;">A4 Landscape ಮುದ್ರಣ ಪೂರ್ವವೀಕ್ಷಣೆ (ಪ್ರತಿ ಪುಟಕ್ಕೆ 3 ವಿದ್ಯಾರ್ಥಿಗಳು)</div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-emerald" onclick="triggerPrint()">🖨️ ಈಗಲೇ ಮುದ್ರಿಸಿ (Print / PDF)</button>
+        <button class="btn btn-red" onclick="closePrintPreview()">❌ ಮುಚ್ಚಿ (Close)</button>
+      </div>
+    </div>
+    <div id="modalPagesContainer" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 24px; background: #111827;"></div>
+  </div>
+
+  <script>
+    const SUBJECTS = ['ಕನ್ನಡ', 'ಇಂಗ್ಲಿಷ್', 'ಹಿಂದಿ', 'ಗಣಿತ', 'ವಿಜ್ಞಾನ', 'ಸಮಾಜ ವಿಜ್ಞಾನ', 'ದೈಹಿಕ ಶಿಕ್ಷಣ'];
+    const ASSESSMENTS = [
+      { label: 'ರೂ-1 10%', max: 15, isCalc: false },
+      { label: 'ರೂ-2 10%', max: 15, isCalc: false },
+      { label: 'ಸಂ-1 30%', max: 40, isCalc: false },
+      { label: 'ಒಟ್ಟು 50%', max: 50, isCalc: true },
+      { label: 'ರೂ-3 10%', max: 15, isCalc: false },
+      { label: 'ರೂ-4 10%', max: 15, isCalc: false },
+      { label: 'ಸಂ-2 30%', max: 40, isCalc: false },
+      { label: 'ಒಟ್ಟು 50%', max: 50, isCalc: true },
+      { label: 'ಒಟ್ಟು 100%', max: 100, isCalc: true }
+    ];
+    const CO_SKILLS = [
+      'ದೈಹಿಕ ಮತ್ತು ಆರೋಗ್ಯ ಶಿಕ್ಷಣ',
+      'ಚಿತ್ರಕಲೆ / ದೃಶ್ಯ ಕಲೆ',
+      'ಕಾರ್ಯಾನುಭವ / ಕರಕುಶಲ',
+      'ಸಂಗೀತ / ನೃತ್ಯ / ನಾಟಕ',
+      'ಜೀವನ ಕೌಶಲಗಳು',
+      'ಮನೋಭಾವ ಮತ್ತು ಮೌಲ್ಯಗಳು',
+      'ಸ್ವಚ್ಛತೆ ಮತ್ತು ಪರಿಸರ ಪ್ರಜ್ಞೆ'
+    ];
+
+    let students = JSON.parse(localStorage.getItem('cce_students_v3') || '[]');
+    if (!students || students.length === 0) {
+      students = [createDefaultStudent(1, 'ವಿದ್ಯಾರ್ಥಿ 1', '01/2024-25')];
+    }
+
+    function createDefaultStudent(id, name = '', admission = '') {
+      return {
+        id,
+        name,
+        admission,
+        dob: '2012-05-15',
+        sats: '123456789',
+        pen: '12345678901',
+        attendance: { s1Total: '110', s1Present: '105', s2Total: '112', s2Present: '108' },
+        co1: ['A', 'A', 'B', 'A', 'A', 'A', 'A'],
+        co2: ['A', 'A', 'A', 'A', 'B', 'A', 'A'],
+        result: 'ಉತ್ತೀರ್ಣ',
+        assessments: ASSESSMENTS.map(a => ({
+          label: a.label,
+          subs: SUBJECTS.map(() => ({ m: '', g: '' })),
+          total: { m: '', p: '', g: '' }
+        }))
+      };
+    }
+
+    function getGrade(pct) {
+      if (pct === '' || isNaN(pct)) return '';
+      const p = Number(pct);
+      if (p >= 85) return 'A+';
+      if (p >= 60) return 'A';
+      if (p >= 50) return 'B+';
+      if (p >= 35) return 'B';
+      return 'C';
+    }
+
+    function getSubGrade(marks, max) {
+      if (marks === '' || isNaN(marks) || max === 0) return '';
+      const pct = (Number(marks) / max) * 100;
+      return getGrade(pct);
+    }
+
+    function recalculateStudent(s) {
+      [0, 1, 2, 4, 5, 6].forEach(idx => {
+        const ass = s.assessments[idx];
+        let sum = 0;
+        let hasVal = false;
+        ass.subs.forEach(sub => {
+          if (sub.m !== '') {
+            hasVal = true;
+            sum += Number(sub.m);
+            sub.g = getSubGrade(sub.m, ASSESSMENTS[idx].max);
+          } else {
+            sub.g = '';
+          }
+        });
+        const maxTot = ASSESSMENTS[idx].max * 7;
+        ass.total.m = hasVal ? sum : '';
+        ass.total.p = hasVal ? ((sum / maxTot) * 100).toFixed(1) : '';
+        ass.total.g = hasVal ? getGrade(ass.total.p) : '';
+      });
+
+      const s1 = s.assessments[3];
+      let s1Sum = 0;
+      let s1Has = false;
+      SUBJECTS.forEach((_, subIdx) => {
+        const m1 = Number(s.assessments[0].subs[subIdx].m || 0);
+        const m2 = Number(s.assessments[1].subs[subIdx].m || 0);
+        const m3 = Number(s.assessments[2].subs[subIdx].m || 0);
+        if (s.assessments[0].subs[subIdx].m !== '' || s.assessments[1].subs[subIdx].m !== '' || s.assessments[2].subs[subIdx].m !== '') {
+          s1Has = true;
+          const weighted = ((m1 / 15) * 10) + ((m2 / 15) * 10) + ((m3 / 40) * 30);
+          const rounded = Math.round(weighted);
+          s1.subs[subIdx].m = rounded;
+          s1.subs[subIdx].g = getSubGrade(rounded, 50);
+          s1Sum += rounded;
+        } else {
+          s1.subs[subIdx].m = '';
+          s1.subs[subIdx].g = '';
+        }
+      });
+      s1.total.m = s1Has ? s1Sum : '';
+      s1.total.p = s1Has ? ((s1Sum / 350) * 100).toFixed(1) : '';
+      s1.total.g = s1Has ? getGrade(s1.total.p) : '';
+
+      const s2 = s.assessments[7];
+      let s2Sum = 0;
+      let s2Has = false;
+      SUBJECTS.forEach((_, subIdx) => {
+        const m4 = Number(s.assessments[4].subs[subIdx].m || 0);
+        const m5 = Number(s.assessments[5].subs[subIdx].m || 0);
+        const m6 = Number(s.assessments[6].subs[subIdx].m || 0);
+        if (s.assessments[4].subs[subIdx].m !== '' || s.assessments[5].subs[subIdx].m !== '' || s.assessments[6].subs[subIdx].m !== '') {
+          s2Has = true;
+          const weighted = ((m4 / 15) * 10) + ((m5 / 15) * 10) + ((m6 / 40) * 30);
+          const rounded = Math.round(weighted);
+          s2.subs[subIdx].m = rounded;
+          s2.subs[subIdx].g = getSubGrade(rounded, 50);
+          s2Sum += rounded;
+        } else {
+          s2.subs[subIdx].m = '';
+          s2.subs[subIdx].g = '';
+        }
+      });
+      s2.total.m = s2Has ? s2Sum : '';
+      s2.total.p = s2Has ? ((s2Sum / 350) * 100).toFixed(1) : '';
+      s2.total.g = s2Has ? getGrade(s2.total.p) : '';
+
+      const gt = s.assessments[8];
+      let gtSum = 0;
+      let gtHas = false;
+      SUBJECTS.forEach((_, subIdx) => {
+        const mS1 = s1.subs[subIdx].m !== '' ? Number(s1.subs[subIdx].m) : null;
+        const mS2 = s2.subs[subIdx].m !== '' ? Number(s2.subs[subIdx].m) : null;
+        if (mS1 !== null || mS2 !== null) {
+          gtHas = true;
+          const sum = (mS1 || 0) + (mS2 || 0);
+          gt.subs[subIdx].m = sum;
+          gt.subs[subIdx].g = getSubGrade(sum, 100);
+          gtSum += sum;
+        } else {
+          gt.subs[subIdx].m = '';
+          gt.subs[subIdx].g = '';
+        }
+      });
+      gt.total.m = gtHas ? gtSum : '';
+      gt.total.p = gtHas ? ((gtSum / 700) * 100).toFixed(1) : '';
+      gt.total.g = gtHas ? getGrade(gt.total.p) : '';
+
+      if (gtHas && gtSum > 0) {
+        s.result = Number(gt.total.p) >= 35 ? 'ಉತ್ತೀರ್ಣ' : 'ಅನುತ್ತೀರ್ಣ';
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem('cce_students_v3', JSON.stringify(students));
+    }
+
+    function renderTable() {
+      const table = document.getElementById('mainTable');
+      let html = `
+        <colgroup>
+          <col style="width: 28px;">
+          <col style="width: 193px;">
+          <col style="width: 32px;">
+          <col style="width: 32px;">
+          <col style="width: 32px;">
+          <col style="width: 53px;">
+          ${SUBJECTS.map(() => '<col style="width: 52px;"><col style="width: 38px;">').join('')}
+          <col style="width: 52px;"><col style="width: 48px;"><col style="width: 42px;">
+          ${CO_SKILLS.map(() => '<col style="width: 38px;">').join('')}
+          <col style="width: 40px;">
+        </colgroup>
+        <thead>
+          <tr style="height: 32px; background: #e0e7ff;">
+            <th rowspan="3" class="vtxt">ಕ್ರ.ಸಂ.</th>
+            <th rowspan="3" style="width: 193px;">ವಿದ್ಯಾರ್ಥಿ ವಿವರ<br><span style="font-size: 9px; font-weight: normal;">ಹೆಸರು / ದಾಖಲಾತಿ / DOB / SATS / PEN</span></th>
+            <th rowspan="3" class="vtxt">ಸೆಮಿಸ್ಟರ್</th>
+            <th rowspan="3" class="vtxt">ಶಾಲೆ ನಡೆದ ದಿನ</th>
+            <th rowspan="3" class="vtxt">ಹಾಜರಾದ ದಿನ</th>
+            <th rowspan="3" style="background: #e0c7ff; width: 53px;">ಮೌಲ್ಯ ಮಾಪನ</th>
+            <th colspan="17" style="background: #c7d2fe; font-size: 13px; font-weight: 800;">ವಿದ್ಯಾರ್ಥಿಯ ಶೈಕ್ಷಣಿಕ ಸಾಧನೆ - ಪತ್ರ ಭಾಗಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ</th>
+            <th colspan="7" style="background: #fbcfe8; font-size: 13px; font-weight: 800;">ಸಹಪಠ್ಯ ವಿಷಯದ ಶ್ರೇಣಿಗಳು</th>
+            <th rowspan="3" style="background: #bbf7d0; font-size: 12px; width: 40px;" class="vtxt">ಫಲಿತಾಂಶ</th>
+          </tr>
+          <tr style="height: 28px; background: #e0e7ff;">
+            ${SUBJECTS.map(s => `<th colspan="2" style="background: #dbeafe; font-size: 12px; font-weight: 800;">${s}</th>`).join('')}
+            <th colspan="3" style="background: #fed7aa; font-size: 12px; font-weight: 800;">ಒಟ್ಟು</th>
+            ${CO_SKILLS.map((c, i) => `<th rowspan="2" class="vtxt" style="font-size: 9.5px; background: #fce7f3;" title="${c}">${i+1}</th>`).join('')}
+          </tr>
+          <tr style="height: 24px; background: #eff6ff;">
+            ${SUBJECTS.map(() => '<th style="font-size: 11px;">ಅಂಕ</th><th style="font-size: 11px;">ಶ್ರೇಣಿ</th>').join('')}
+            <th style="font-size: 11px; background: #ffedd5;">ಅಂಕ</th>
+            <th style="font-size: 11px; background: #ffedd5;">%</th>
+            <th style="font-size: 11px; background: #ffedd5;">ಶ್ರೇಣಿ</th>
+          </tr>
+        </thead>
+        <tbody>
+      `;
+
+      students.forEach((stu, sIdx) => {
+        recalculateStudent(stu);
+        stu.assessments.forEach((ass, aIdx) => {
+          const isCalc = [3, 7, 8].includes(aIdx);
+          const is50 = aIdx === 3 || aIdx === 7;
+          const is100 = aIdx === 8;
+          const bgRow = is50 ? '#fef9c3' : is100 ? '#fde68a' : isCalc ? '#eef2ff' : '#ffffff';
+          const bgLabel = is50 ? '#fef9c3' : is100 ? '#fde68a' : '#ede9fe';
+
+          html += `<tr style="height: 36px; background: ${bgRow};">`;
+
+          if (aIdx === 0) {
+            html += `
+              <td rowspan="9" style="background: #d9e8d5; font-size: 14.5px; font-weight: 700; padding: 4px 1px;">
+                ${stu.id}
+                <div style="margin-top: 8px;">
+                  <button onclick="deleteStudent(${sIdx})" style="background: #ef4444; color: #fff; border: 0; border-radius: 4px; padding: 2px 4px; font-size: 10px; cursor: pointer;" title="ವಿದ್ಯಾರ್ಥಿ ತೆಗೆದುಹಾಕಿ">❌</button>
+                </div>
+              </td>
+              <td rowspan="9" style="background: #c6e0b4; padding: 4px 3px; height: 324px; vertical-align: middle;">
+                <div class="stu-detail-wrap" style="min-height: 316px;">
+                  <div class="stu-row" style="min-height: 44px;">
+                    <input class="stu-input stu-input-name" style="font-size: 16.5px; font-weight: bold;" value="${stu.name}" placeholder="ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು" onchange="updateStuField(${sIdx}, 'name', this.value)">
+                  </div>
+                  <div class="stu-row">
+                    <span class="stu-label">ದಾಖಲಾತಿ:</span>
+                    <input class="stu-input" value="${stu.admission}" placeholder="ದಾಖಲಾತಿ ಸಂ" onchange="updateStuField(${sIdx}, 'admission', this.value)">
+                  </div>
+                  <div class="stu-row">
+                    <span class="stu-label">DOB:</span>
+                    <input type="date" class="stu-input-date" value="${stu.dob}" onchange="updateStuField(${sIdx}, 'dob', this.value)">
+                  </div>
+                  <div class="stu-row">
+                    <span class="stu-label">SATS:</span>
+                    <input class="stu-input" value="${stu.sats}" placeholder="SATS ಸಂಖ್ಯೆ" onchange="updateStuField(${sIdx}, 'sats', this.value)">
+                  </div>
+                  <div class="stu-row">
+                    <span class="stu-label">PEN:</span>
+                    <input class="stu-input" value="${stu.pen}" placeholder="PEN ಸಂಖ್ಯೆ" onchange="updateStuField(${sIdx}, 'pen', this.value)">
+                  </div>
+                </div>
+              </td>
+            `;
+          }
+
+          if (aIdx === 0) {
+            html += `<td rowspan="4" style="background: #fde68a; padding: 3px 1px;"><div class="vtxt font-bold" style="height: 100px; font-size: 14.5px;">1ನೇ</div></td>`;
+          } else if (aIdx === 4) {
+            html += `<td rowspan="5" style="background: #fde68a; padding: 3px 1px;"><div class="vtxt font-bold" style="height: 140px; font-size: 14.5px;">2ನೇ</div></td>`;
+          }
+
+          if (aIdx === 0) {
+            html += `
+              <td rowspan="4" style="background: #f8faf8; padding: 2px 1px;"><input class="w-full text-center font-bold" style="font-size: 14.5px; background: transparent; border: 0; width: 100%; height: 140px;" value="${stu.attendance.s1Total}" onchange="updateAtt(${sIdx}, 's1Total', this.value)"></td>
+              <td rowspan="4" style="background: #f8faf8; padding: 2px 1px;"><input class="w-full text-center font-bold" style="font-size: 14.5px; background: transparent; border: 0; width: 100%; height: 140px;" value="${stu.attendance.s1Present}" onchange="updateAtt(${sIdx}, 's1Present', this.value)"></td>
+            `;
+          } else if (aIdx === 4) {
+            html += `
+              <td rowspan="4" style="background: #ffffff; padding: 2px 1px;"><input class="w-full text-center font-bold" style="font-size: 14.5px; background: transparent; border: 0; width: 100%; height: 140px;" value="${stu.attendance.s2Total}" onchange="updateAtt(${sIdx}, 's2Total', this.value)"></td>
+              <td rowspan="4" style="background: #ffffff; padding: 2px 1px;"><input class="w-full text-center font-bold" style="font-size: 14.5px; background: transparent; border: 0; width: 100%; height: 140px;" value="${stu.attendance.s2Present}" onchange="updateAtt(${sIdx}, 's2Present', this.value)"></td>
+            `;
+          } else if (aIdx === 8) {
+            const totDays = Number(stu.attendance.s1Total || 0) + Number(stu.attendance.s2Total || 0);
+            const totPres = Number(stu.attendance.s1Present || 0) + Number(stu.attendance.s2Present || 0);
+            html += `
+              <td style="background: #dbeafe; font-weight: 700; font-size: 13.5px; padding: 2px 1px;">${totDays || ''}</td>
+              <td style="background: #dbeafe; font-weight: 700; font-size: 13.5px; padding: 2px 1px;">${totPres || ''}</td>
+            `;
+          }
+
+          html += `
+            <td class="moulankan-cell" style="background: ${bgLabel}; padding: 3px 2px; width: 53px;">
+              <div style="font-size: 11.5px; font-weight: 700;">${ass.label}</div>
+            </td>
+          `;
+
+          ass.subs.forEach((sub, subIdx) => {
+            html += `
+              <td style="padding: 1px; background: ${isCalc ? '#f3f4f6' : 'transparent'};">
+                <input ${isCalc ? 'readonly tabindex="-1"' : ''} class="anka-mark-input" value="${sub.m}" onchange="updateMark(${sIdx}, ${aIdx}, ${subIdx}, this.value)" style="${isCalc ? 'cursor: not-allowed;' : ''}">
+              </td>
+              <td style="padding: 1px; background: #f3f4f6; font-size: 15.5px; font-weight: 700;">
+                ${sub.g || ''}
+              </td>
+            `;
+          });
+
+          html += `
+            <td style="padding: 1px; font-size: 15.5px; font-weight: 700; background: ${isCalc ? '#f3f4f6' : 'transparent'};">${ass.total.m}</td>
+            <td style="padding: 1px; font-size: 15.5px; font-weight: 700; background: ${isCalc ? '#f3f4f6' : 'transparent'};">${ass.total.p}</td>
+            <td style="padding: 1px; font-size: 15.5px; font-weight: 700; background: #f3f4f6;">${ass.total.g}</td>
+          `;
+
+          if (aIdx === 0) {
+            stu.co1.forEach((cVal, cIdx) => {
+              html += `
+                <td rowspan="4" class="co-cell" style="padding: 1px;">
+                  <select class="co-select-direct" onchange="updateCo(${sIdx}, 'co1', ${cIdx}, this.value)">
+                    <option value=""></option>
+                    <option value="A" ${cVal==='A'?'selected':''}>A</option>
+                    <option value="B" ${cVal==='B'?'selected':''}>B</option>
+                  </select>
+                </td>
+              `;
+            });
+          } else if (aIdx === 4) {
+            stu.co2.forEach((cVal, cIdx) => {
+              html += `
+                <td rowspan="4" class="co-cell-2" style="padding: 1px;">
+                  <select class="co-select-direct" onchange="updateCo(${sIdx}, 'co2', ${cIdx}, this.value)">
+                    <option value=""></option>
+                    <option value="A" ${cVal==='A'?'selected':''}>A</option>
+                    <option value="B" ${cVal==='B'?'selected':''}>B</option>
+                  </select>
+                </td>
+              `;
+            });
+          } else if (aIdx === 8) {
+            CO_SKILLS.forEach((_, cIdx) => {
+              const c1 = stu.co1[cIdx] || '';
+              const c2 = stu.co2[cIdx] || '';
+              const fin = (!c1 && !c2) ? '' : (c1 === 'A' && c2 === 'A') ? 'A' : 'B';
+              html += `<td style="background: #f3d6e8; font-weight: 700; font-size: 14.5px;">${fin}</td>`;
+            });
+          }
+
+          if (aIdx === 0) {
+            const grandMarks = stu.assessments[8].total.m;
+            const pctStr = stu.assessments[8].total.p;
+            const gr = stu.assessments[8].total.g;
+            const resText = stu.result ? `${stu.result} ${grandMarks ? `${grandMarks}/700=${pctStr}% ${gr}` : ''}` : (grandMarks ? `${grandMarks}/700=${pctStr}% ${gr}` : '');
+            html += `
+              <td rowspan="9" style="background: #d9e8d5; width: 40px; height: 324px; padding: 2px 0;">
+                <div class="vtxt font-bold" style="font-size: 15.5px; min-height: 324px;">${resText}</div>
+              </td>
+            `;
+          }
+
+          html += `</tr>`;
+        });
+      });
+
+      html += `</tbody>`;
+      table.innerHTML = html;
+      saveState();
+    }
+
+    function updateStuField(sIdx, field, val) {
+      students[sIdx][field] = val;
+      renderTable();
+    }
+    function updateAtt(sIdx, field, val) {
+      students[sIdx].attendance[field] = val;
+      renderTable();
+    }
+    function updateCo(sIdx, type, cIdx, val) {
+      students[sIdx][type][cIdx] = val;
+      renderTable();
+    }
+    function updateMark(sIdx, aIdx, subIdx, val) {
+      students[sIdx].assessments[aIdx].subs[subIdx].m = val;
+      renderTable();
+    }
+    function addStudent() {
+      const newId = students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1;
+      students.push(createDefaultStudent(newId, `ವಿದ್ಯಾರ್ಥಿ ${newId}`, `0${newId}/2024-25`));
+      renderTable();
+    }
+    function deleteStudent(sIdx) {
+      if (confirm('ಈ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಖಚಿತವಾಗಿ ಅಳಿಸಬೇಕೇ?')) {
+        students.splice(sIdx, 1);
+        renderTable();
+      }
+    }
+    function resetMarks() {
+      if (confirm('ಎಲ್ಲಾ ವಿದ್ಯಾರ್ಥಿಗಳ ಅಂಕಗಳನ್ನು ರೀಸೆಟ್ ಮಾಡಬೇಕೇ?')) {
+        students.forEach(s => {
+          s.assessments.forEach(a => {
+            a.subs.forEach(sub => { sub.m = ''; sub.g = ''; });
+            a.total = { m: '', p: '', g: '' };
+          });
+          s.result = '';
+        });
+        renderTable();
+      }
+    }
+    function clearAllData() {
+      if (confirm('ಎಲ್ಲಾ ವಿದ್ಯಾರ್ಥಿಗಳ ಮಾಹಿತಿಯನ್ನು ತೆರವುಗೊಳಿಸಬೇಕೇ?')) {
+        students = [createDefaultStudent(1, 'ವಿದ್ಯಾರ್ಥಿ 1', '01/2024-25')];
+        renderTable();
+      }
+    }
+
+    function generatePrintHTML() {
+      const chunkSize = 3;
+      const pages = [];
+      for (let i = 0; i < students.length; i += chunkSize) {
+        pages.push(students.slice(i, i + chunkSize));
+      }
+      if (pages.length === 0) pages.push([]);
+
+      let html = '';
+      pages.forEach((pageStudents, pIdx) => {
+        html += `
+          <div class="print-page" style="padding: 10mm 5mm 5mm 5mm;">
+            <table class="print-table">
+              <colgroup>
+                <col style="width: 1.8%;">
+                <col style="width: 12.1%;">
+                <col style="width: 2.0%;">
+                <col style="width: 2.0%;">
+                <col style="width: 2.0%;">
+                <col style="width: 4.4%;">
+                ${SUBJECTS.map(() => '<col style="width: 3.4%;"><col style="width: 3.4%;">').join('')}
+                <col style="width: 3.3%;"><col style="width: 3.3%;"><col style="width: 3.3%;">
+                ${CO_SKILLS.map(() => '<col style="width: 2.0%;">').join('')}
+                <col style="width: 4.0%;">
+              </colgroup>
+              <thead>
+                <tr style="height: 30px;">
+                  <th rowspan="3" class="vtxt font-bold" style="font-size: 10.5px;">ಕ್ರ.ಸಂ.</th>
+                  <th rowspan="3" style="font-size: 11px; font-weight: 700;">ವಿದ್ಯಾರ್ಥಿ ವಿವರ<br><span style="font-size: 8.5px; font-weight: 500;">ಹೆಸರು / ದಾಖಲಾತಿ / DOB / SATS / PEN</span></th>
+                  <th rowspan="3" class="vtxt font-bold" style="font-size: 10.5px;">ಸೆಮಿಸ್ಟರ್</th>
+                  <th rowspan="3" class="vtxt font-bold" style="font-size: 10.5px;">ಶಾಲೆ ನಡೆದ ದಿನ</th>
+                  <th rowspan="3" class="vtxt font-bold" style="font-size: 10.5px;">ಹಾಜರಾದ ದಿನ</th>
+                  <th rowspan="3" class="vtxt font-bold" style="font-size: 9.5px;">ಮೌಲ್ಯ ಮಾಪನ</th>
+                  <th colspan="17" style="font-size: 12px; font-weight: 700;">ವಿದ್ಯಾರ್ಥಿಯ ಶೈಕ್ಷಣಿಕ ಸಾಧನೆ - ಪತ್ರ ಭಾಗಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ</th>
+                  <th colspan="7" style="font-size: 11.5px; font-weight: 700;">ಸಹಪಠ್ಯ ವಿಷಯದ ಶ್ರೇಣಿಗಳು</th>
+                  <th rowspan="3" class="vtxt font-bold" style="font-size: 10.5px;">ಫಲಿತಾಂಶ</th>
+                </tr>
+                <tr style="height: 24px;">
+                  ${SUBJECTS.map(s => `<th colspan="2" style="font-size: 11.5px; font-weight: 700;">${s}</th>`).join('')}
+                  <th colspan="3" style="font-size: 11.5px; font-weight: 700;">ಒಟ್ಟು</th>
+                  ${CO_SKILLS.map((c, i) => `<th rowspan="2" class="vtxt" style="font-size: 9.5px;" title="${c}">${i+1}</th>`).join('')}
+                </tr>
+                <tr style="height: 20px;">
+                  ${SUBJECTS.map(() => '<th style="font-size: 10px; font-weight: 700;">ಅಂಕ</th><th style="font-size: 10px; font-weight: 700;">ಶ್ರೇಣಿ</th>').join('')}
+                  <th style="font-size: 10px; font-weight: 700;">ಅಂಕ</th>
+                  <th style="font-size: 10px; font-weight: 700;">%</th>
+                  <th style="font-size: 10px; font-weight: 700;">ಶ್ರೇಣಿ</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        pageStudents.forEach(stu => {
+          recalculateStudent(stu);
+          stu.assessments.forEach((ass, aIdx) => {
+            html += `<tr style="height: 24.5px;">`;
+
+            if (aIdx === 0) {
+              html += `
+                <td rowspan="9" style="font-weight: 700; font-size: 12.5px; padding: 3px 1px;">${stu.id}</td>
+                <td rowspan="9" style="padding: 4px 2px; text-align: center; vertical-align: middle;">
+                  <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 2px;">${stu.name || '-'}</div>
+                  <div style="font-size: 11px;">ದಾಖಲಾತಿ: ${stu.admission || '-'}</div>
+                  <div style="font-size: 11px;">DOB: ${stu.dob || '-'}</div>
+                  <div style="font-size: 11px;">SATS: ${stu.sats || '-'}</div>
+                  <div style="font-size: 11px;">PEN: ${stu.pen || '-'}</div>
+                </td>
+              `;
+            }
+
+            if (aIdx === 0) {
+              html += `<td rowspan="4" style="padding: 3px 1px;"><div class="vtxt font-bold" style="font-size: 12px;">1ನೇ</div></td>`;
+            } else if (aIdx === 4) {
+              html += `<td rowspan="5" style="padding: 3px 1px;"><div class="vtxt font-bold" style="font-size: 12px;">2ನೇ</div></td>`;
+            }
+
+            if (aIdx === 0) {
+              html += `
+                <td rowspan="4" style="font-weight: 700; font-size: 12.5px; padding: 3px 1px;">${stu.attendance.s1Total || '-'}</td>
+                <td rowspan="4" style="font-weight: 700; font-size: 12.5px; padding: 3px 1px;">${stu.attendance.s1Present || '-'}</td>
+              `;
+            } else if (aIdx === 4) {
+              html += `
+                <td rowspan="4" style="font-weight: 700; font-size: 12.5px; padding: 3px 1px;">${stu.attendance.s2Total || '-'}</td>
+                <td rowspan="4" style="font-weight: 700; font-size: 12.5px; padding: 3px 1px;">${stu.attendance.s2Present || '-'}</td>
+              `;
+            } else if (aIdx === 8) {
+              const totD = Number(stu.attendance.s1Total || 0) + Number(stu.attendance.s2Total || 0);
+              const totP = Number(stu.attendance.s1Present || 0) + Number(stu.attendance.s2Present || 0);
+              html += `
+                <td style="font-weight: 700; font-size: 12.5px; padding: 3px 1px;">${totD || '-'}</td>
+                <td style="font-weight: 700; font-size: 12.5px; padding: 3px 1px;">${totP || '-'}</td>
+              `;
+            }
+
+            html += `<td class="moulankan-cell" style="font-size: 9.8px; font-weight: 700; padding: 2.5px 1px;">${ass.label}</td>`;
+
+            ass.subs.forEach(sub => {
+              html += `
+                <td style="font-weight: 700; font-size: 12.5px; padding: 2.5px 1px;">${sub.m !== '' ? sub.m : '-'}</td>
+                <td style="font-weight: 700; font-size: 12.5px; padding: 2.5px 1px;">${sub.g || '-'}</td>
+              `;
+            });
+
+            html += `
+              <td style="font-weight: 700; font-size: 12.5px; padding: 2.5px 1px;">${ass.total.m !== '' ? ass.total.m : '-'}</td>
+              <td style="font-weight: 700; font-size: 12.5px; padding: 2.5px 1px;">${ass.total.p !== '' ? ass.total.p : '-'}</td>
+              <td style="font-weight: 700; font-size: 12.5px; padding: 2.5px 1px;">${ass.total.g || '-'}</td>
+            `;
+
+            if (aIdx === 0) {
+              stu.co1.forEach(c => {
+                html += `<td rowspan="4" style="font-weight: 700; font-size: 12.5px; padding: 2.5px 1px;">${c || '-'}</td>`;
+              });
+            } else if (aIdx === 4) {
+              stu.co2.forEach(c => {
+                html += `<td rowspan="4" style="font-weight: 700; font-size: 12.5px; padding: 2.5px 1px;">${c || '-'}</td>`;
+              });
+            } else if (aIdx === 8) {
+              CO_SKILLS.forEach((_, cIdx) => {
+                const c1 = stu.co1[cIdx] || '';
+                const c2 = stu.co2[cIdx] || '';
+                const fin = (!c1 && !c2) ? '' : (c1 === 'A' && c2 === 'A') ? 'A' : 'B';
+                html += `<td style="font-weight: 700; font-size: 12.5px; padding: 2.5px 1px;">${fin}</td>`;
+              });
+            }
+
+            if (aIdx === 0) {
+              const gm = stu.assessments[8].total.m;
+              const gp = stu.assessments[8].total.p;
+              const gg = stu.assessments[8].total.g;
+              const res = stu.result ? `${stu.result} ${gm ? `${gm}/700=${gp}% ${gg}` : ''}` : (gm ? `${gm}/700=${gp}% ${gg}` : '-');
+              html += `
+                <td rowspan="9" style="padding: 2px 1px; vertical-align: middle;">
+                  <div class="vtxt font-bold" style="font-size: 12px; min-height: 180px;">${res}</div>
+                </td>
+              `;
+            }
+
+            html += `</tr>`;
+          });
+        });
+
+        html += `
+              </tbody>
+            </table>
+            <!-- Signatures Row -->
+            <div style="margin-top: 10px; padding-top: 6px; border-top: 1px solid #000; display: flex; justify-content: space-between; font-weight: 700; font-size: 12.5px;">
+              <div>ದಿನಾಂಕ: _________________</div>
+              <div>ತರಗತಿ ಶಿಕ್ಷಕರ ಸಹಿ: _________________</div>
+              <div>ಮುಖ್ಯೋಪಾಧ್ಯಾಯರ ಸಹಿ ಹಾಗೂ ಶಾಲಾ ಮೊಹರು: _________________</div>
+            </div>
+          </div>
+        `;
+      });
+      return html;
+    }
+
+    function openPrintPreview() {
+      const container = document.getElementById('modalPagesContainer');
+      container.innerHTML = generatePrintHTML();
+      document.getElementById('printModal').style.display = 'flex';
+    }
+    function closePrintPreview() {
+      document.getElementById('printModal').style.display = 'none';
+    }
+    function triggerPrint() {
+      document.getElementById('printArea').innerHTML = generatePrintHTML();
+      window.print();
+    }
+
+    function exportToExcel() {
+      if (typeof XLSX === 'undefined') {
+        alert('SheetJS ಲೋಡ್ ಆಗುತ್ತಿಲ್ಲ, ದಯವಿಟ್ಟು ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ.');
+        return;
+      }
+      const data = [];
+      const headerRow1 = ['ಕ್ರ.ಸಂ.', 'ವಿದ್ಯಾರ್ಥಿ ವಿವರ', 'ದಾಖಲಾತಿ ಸಂ', 'ಜನ್ಮ ದಿನಾಂಕ', 'SATS No', 'PEN No', 'ಮೌಲ್ಯಮಾಪನ'];
+      SUBJECTS.forEach(sub => {
+        headerRow1.push(`${sub} ಅಂಕ`, `${sub} ಶ್ರೇಣಿ`);
+      });
+      headerRow1.push('ಒಟ್ಟು ಅಂಕ', 'ಶೇಕಡಾವಾರು (%)', 'ಒಟ್ಟು ಶ್ರೇಣಿ');
+      CO_SKILLS.forEach(co => headerRow1.push(`ಸಹಪಠ್ಯ - ${co}`));
+      headerRow1.push('ಫಲಿತಾಂಶ');
+      data.push(headerRow1);
+
+      students.forEach(stu => {
+        recalculateStudent(stu);
+        stu.assessments.forEach((ass, aIdx) => {
+          const row = [
+            aIdx === 0 ? stu.id : '',
+            aIdx === 0 ? stu.name : '',
+            aIdx === 0 ? stu.admission : '',
+            aIdx === 0 ? stu.dob : '',
+            aIdx === 0 ? stu.sats : '',
+            aIdx === 0 ? stu.pen : '',
+            ass.label
+          ];
+          ass.subs.forEach(sub => {
+            row.push(sub.m !== '' ? sub.m : '', sub.g || '');
+          });
+          row.push(ass.total.m !== '' ? ass.total.m : '', ass.total.p !== '' ? `${ass.total.p}%` : '', ass.total.g || '');
+
+          CO_SKILLS.forEach((_, cIdx) => {
+            if (aIdx < 4) row.push(stu.co1[cIdx] || '');
+            else if (aIdx < 8) row.push(stu.co2[cIdx] || '');
+            else {
+              const c1 = stu.co1[cIdx] || '';
+              const c2 = stu.co2[cIdx] || '';
+              row.push((!c1 && !c2) ? '' : (c1 === 'A' && c2 === 'A') ? 'A' : 'B');
+            }
+          });
+
+          row.push(aIdx === 0 ? stu.result : '');
+          data.push(row);
+        });
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'CCE Register');
+      XLSX.writeFile(wb, `CCE_Register_Class_${document.getElementById('classSelect').value}_${document.getElementById('yearInput').value}.xlsx`);
+    }
+
+    renderTable();
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "CCE 6-9 Consolidated Register | ನಿರಂತರ ಮತ್ತು ವ್ಯಾಪಕ ಮೌಲ್ಯಮಾಪನ ಕ್ರೋಡೀಕೃತ ವಹಿ",
+  "description": "Karnataka State Board CCE Consolidated Marks & Grade Register for Classes 6 to 9 with automatic FA/SA calculations, co-curricular evaluations, print format, and Excel export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
